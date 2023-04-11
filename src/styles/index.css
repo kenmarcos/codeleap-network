@@ -14,3 +14,25 @@
     line-height: 21px;
   }
 }
+
+@layer components {
+  .btn {
+    @apply rounded-lg w-[120px] h-8 border font-bold;
+  }
+
+  .btn-primary {
+    @apply bg-primary text-white border-primary duration-300 hover:brightness-90;
+  }
+
+  .btn-success {
+    @apply bg-success text-white border-success duration-300 hover:brightness-90;
+  }
+
+  .btn-danger {
+    @apply bg-danger text-white border-danger duration-300 hover:brightness-90;
+  }
+
+  .btn-outline-white {
+    @apply bg-white text-black border-custom-gray-500 hover:bg-black hover:text-white;
+  }
+}
