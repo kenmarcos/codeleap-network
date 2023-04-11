@@ -1,3 +1,16 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  h2 {
+    font-size: 22px;
+    line-height: 26px;
+    @apply font-bold;
+  }
+
+  h3 {
+    font-size: 18px;
+    line-height: 21px;
+  }
+}
