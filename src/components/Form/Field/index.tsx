@@ -1,7 +1,7 @@
-import React, { HTMLAttributes } from "react";
+import React, { FieldsetHTMLAttributes, HTMLAttributes } from "react";
 
-const Field = (props: HTMLAttributes<HTMLDivElement>) => {
-  return <div {...props} className="flex flex-col gap-2" />;
+const Field = (props: FieldsetHTMLAttributes<HTMLFieldSetElement>) => {
+  return <fieldset {...props} className="flex flex-col" />;
 };
 
 export default Field;
