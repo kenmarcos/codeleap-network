@@ -20,8 +20,6 @@ export const useSignup = () => {
   } = signupForm;
 
   const handleFormSubmit = (data: signupData) => {
-    console.log(data);
-
     dispatch(signupUser(data));
 
     navigate("/home");
