@@ -2,7 +2,7 @@ import Button from "@/components/Button";
 import { Form } from "@/components/Form";
 import * as Dialog from "@radix-ui/react-dialog";
 import { FormProvider } from "react-hook-form";
-import { useSignup } from "../../useSignup";
+import { useSignup } from "./useSignup";
 
 const SignupFormModal = () => {
   const { signupForm, handleSubmit, handleFormSubmit, errors } = useSignup();
@@ -31,7 +31,10 @@ const SignupFormModal = () => {
               </Form.Field>
 
               <div className="mt-4 flex justify-end">
-                <Button type="submit" className="btn-primary uppercase">
+                <Button
+                  type="submit"
+                  className="btn-primary w-[120px] h-8 uppercase"
+                >
                   Enter
                 </Button>
               </div>
