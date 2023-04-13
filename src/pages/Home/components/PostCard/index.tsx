@@ -12,6 +12,7 @@ import * as yup from "yup";
 import { FormProvider, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { api } from "@/services";
+import { useState } from "react";
 
 export const editPostSchema = yup.object().shape({
   title: yup.string().required("*Required field"),
@@ -28,6 +29,7 @@ const PostCard = (props: PostCardProps) => {
   const { id, title, username, created_datetime, content } = props.post;
 
   const user: User = useTypedSelector((store) => store.user);
+  const [open, setOpen] = useState(false);
 
   const formattedCreatedDatetime = formatDistanceToNow(
     parseISO(created_datetime)
@@ -36,6 +38,8 @@ const PostCard = (props: PostCardProps) => {
   const handleDeleteBtnClick = async () => {
     try {
       await api.delete(`/${id}/`);
+
+      setOpen(false);
     } catch (error) {
       console.log(error);
     }
@@ -54,8 +58,14 @@ const PostCard = (props: PostCardProps) => {
     formState: { errors, isDirty },
   } = editPostForm;
 
-  const handleFormSubmit = (data: editPostData) => {
-    console.log(data);
+  const handleFormSubmit = async (data: editPostData) => {
+    try {
+      await api.patch(`/${id}/`, data);
+
+      setOpen(false);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -66,9 +76,9 @@ const PostCard = (props: PostCardProps) => {
           <div className="flex space-x-5">
             <AlertDialog.Root>
               <AlertDialog.Trigger asChild>
-                <button>
+                <Button className="duration-500 hover:scale-125">
                   <Trash />
-                </button>
+                </Button>
               </AlertDialog.Trigger>
 
               <AlertDialog.Portal>
@@ -99,9 +109,9 @@ const PostCard = (props: PostCardProps) => {
               </AlertDialog.Portal>
             </AlertDialog.Root>
 
-            <Dialog.Root>
+            <Dialog.Root open={open} onOpenChange={setOpen}>
               <Dialog.Trigger asChild>
-                <Button>
+                <Button className="duration-500 hover:scale-125">
                   <Edit />
                 </Button>
               </Dialog.Trigger>
