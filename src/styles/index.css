@@ -33,6 +33,6 @@
   }
 
   .btn-outline-white {
-    @apply bg-white text-black border-custom-gray-500 hover:bg-black hover:text-white;
+    @apply bg-white text-black border border-custom-gray-500 hover:bg-black hover:text-white;
   }
 }
