@@ -3,6 +3,7 @@ import { createPostData } from "./types";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { createPostSchema } from "./schema";
 import { useTypedSelector } from "@/redux/hooks";
+import { api } from "@/services";
 
 export const useCreatePost = () => {
   const { username } = useTypedSelector((store) => store.user);
@@ -18,11 +19,18 @@ export const useCreatePost = () => {
 
   const {
     handleSubmit,
+    reset,
     formState: { errors, dirtyFields },
   } = createPostForm;
 
-  const handleFormSubmit = (data: createPostData) => {
-    console.log(data);
+  const handleFormSubmit = async (data: createPostData) => {
+    try {
+      await api.post("/", data);
+
+      reset();
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return {

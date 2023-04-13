@@ -6,7 +6,7 @@ export const getPostsThunk = () => {
     dispatch(getPostsLoading());
 
     try {
-      const response = await api.get("");
+      const response = await api.get("/");
 
       dispatch(getPostsSuccess(response.data.results));
     } catch (error) {
