@@ -1,4 +1,4 @@
-import { Post } from "@/redux/post/reducer";
+import { Post, Posts, PostsState } from "@/redux/post/reducer";
 
 export enum ActionType {
   GET_POSTS_LOADING = "GET_POSTS_LOADING",
@@ -11,7 +11,7 @@ interface ActionGetPostsLoading {
 
 interface ActionGetPostsSuccess {
   type: ActionType.GET_POSTS_SUCCESS;
-  posts: Post[];
+  payload: Posts;
 }
 
 export type Action = ActionGetPostsSuccess | ActionGetPostsLoading;

@@ -5,7 +5,7 @@ import thunk from "redux-thunk";
 
 const reducers = combineReducers({
   user: userReducer,
-  post: postReducer,
+  posts: postReducer,
 });
 
 const store = createStore(reducers, {}, applyMiddleware(thunk));

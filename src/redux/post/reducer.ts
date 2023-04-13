@@ -8,24 +8,38 @@ export interface Post {
   content: string;
 }
 
-export interface PostState {
+export interface Posts {
+  count: number;
+  next: string | null;
+  previous: string | null;
+  results: Post[];
+}
+
+export interface PostsState extends Posts {
   isLoading: boolean;
-  posts: Post[];
 }
 
 const defaultState = {
   isLoading: false,
-  posts: [],
+  count: 0,
+  next: null,
+  previous: null,
+  results: [],
 };
 
-const postReducer = (state: PostState = defaultState, action: Action) => {
+const postReducer = (state: PostsState = defaultState, action: Action) => {
   switch (action.type) {
     case ActionType.GET_POSTS_LOADING:
       return { ...state, isLoading: true };
 
     case ActionType.GET_POSTS_SUCCESS:
-      const { posts } = action;
-      return { ...state, isLoading: false, posts };
+      const { payload } = action;
+      return {
+        isLoading: false,
+        next: payload.next,
+        previous: payload.previous,
+        results: [...state.results, ...payload.results],
+      };
 
     default:
       return state;

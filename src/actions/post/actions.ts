@@ -1,4 +1,4 @@
-import { Post } from "@/redux/post/reducer";
+import { Posts } from "@/redux/post/reducer";
 import { ActionType } from "./actionTypes";
 
 export const getPostsLoading = () => {
@@ -7,9 +7,9 @@ export const getPostsLoading = () => {
   };
 };
 
-export const getPostsSuccess = (posts: Post[]) => {
+export const getPostsSuccess = (posts: Posts) => {
   return {
     type: ActionType.GET_POSTS_SUCCESS,
-    posts,
+    payload: posts,
   };
 };
