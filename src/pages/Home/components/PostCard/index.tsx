@@ -11,6 +11,7 @@ import { Form } from "@/components/Form";
 import * as yup from "yup";
 import { FormProvider, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { api } from "@/services";
 
 export const editPostSchema = yup.object().shape({
   title: yup.string().required("*Required field"),
@@ -32,8 +33,12 @@ const PostCard = (props: PostCardProps) => {
     parseISO(created_datetime)
   );
 
-  const handleDeleteBtnClick = () => {
-    console.log(`Deletar post de id ${id}`);
+  const handleDeleteBtnClick = async () => {
+    try {
+      await api.delete(`/${id}/`);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const editPostForm = useForm<editPostData>({
