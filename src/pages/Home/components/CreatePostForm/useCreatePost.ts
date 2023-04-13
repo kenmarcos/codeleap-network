@@ -2,7 +2,7 @@ import { useForm } from "react-hook-form";
 import { createPostData } from "./types";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { createPostSchema } from "./schema";
-import { useTypedSelector } from "@/hooks/useTypeSelector";
+import { useTypedSelector } from "@/redux/hooks";
 
 export const useCreatePost = () => {
   const { username } = useTypedSelector((store) => store.user);
