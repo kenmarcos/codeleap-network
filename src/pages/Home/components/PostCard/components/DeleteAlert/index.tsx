@@ -3,6 +3,7 @@ import Trash from "@/icons/Trash";
 import * as AlertDialog from "@radix-ui/react-alert-dialog";
 import { CircleNotch } from "phosphor-react";
 import { useDeleteAlert } from "./useDeleteAlert";
+import { motion } from "framer-motion";
 
 interface DeleteAlertProps {
   postId: number;
@@ -25,34 +26,40 @@ const DeleteAlert = (props: DeleteAlertProps) => {
       <AlertDialog.Portal>
         <AlertDialog.Overlay className="bg-black bg-opacity-50 data-[state=open]:animate-overlayShow fixed inset-0" />
 
-        <AlertDialog.Content className="border border-custom-gray-500 space-y-10 data-[state=open]:animate-contentShow fixed top-[50%] left-[50%] max-h-[85vh] w-[90vw] max-w-[660px] translate-x-[-50%] translate-y-[-50%] rounded-xl bg-white p-6 shadow-[hsl(206_22%_7%_/_35%)_0px_10px_38px_-10px,_hsl(206_22%_7%_/_20%)_0px_10px_20px_-15px] focus:outline-none">
-          <AlertDialog.Title>
-            Are you sure you want to delete this item?
-          </AlertDialog.Title>
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.5 }}
+        >
+          <AlertDialog.Content className="border border-custom-gray-500 space-y-10 data-[state=open]:animate-contentShow fixed top-[50%] left-[50%] max-h-[85vh] w-[90vw] max-w-[660px] translate-x-[-50%] translate-y-[-50%] rounded-xl bg-white p-6 shadow-[hsl(206_22%_7%_/_35%)_0px_10px_38px_-10px,_hsl(206_22%_7%_/_20%)_0px_10px_20px_-15px] focus:outline-none">
+            <AlertDialog.Title>
+              Are you sure you want to delete this item?
+            </AlertDialog.Title>
 
-          <div className="flex justify-end gap-[25px]">
-            <AlertDialog.Cancel asChild>
+            <div className="flex justify-end gap-[25px]">
+              <AlertDialog.Cancel asChild>
+                <Button
+                  className="btn-outline-white w-[120px] h-8"
+                  disabled={isLoading}
+                >
+                  Cancel
+                </Button>
+              </AlertDialog.Cancel>
+
               <Button
-                className="btn-outline-white w-[120px] h-8"
+                className="btn-danger w-[120px] h-8"
+                onClick={handleDeleteBtnClick}
                 disabled={isLoading}
               >
-                Cancel
+                {isLoading ? (
+                  <CircleNotch className="animate-spin" size={20} />
+                ) : (
+                  "Delete"
+                )}
               </Button>
-            </AlertDialog.Cancel>
-
-            <Button
-              className="btn-danger w-[120px] h-8"
-              onClick={handleDeleteBtnClick}
-              disabled={isLoading}
-            >
-              {isLoading ? (
-                <CircleNotch className="animate-spin" size={20} />
-              ) : (
-                "Delete"
-              )}
-            </Button>
-          </div>
-        </AlertDialog.Content>
+            </div>
+          </AlertDialog.Content>
+        </motion.div>
       </AlertDialog.Portal>
     </AlertDialog.Root>
   );

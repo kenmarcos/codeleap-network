@@ -23,7 +23,7 @@ const PostsList = () => {
           </ul>
 
           <Button
-            className="btn-primary w-full p-4 space-x-2"
+            className="btn-primary w-full py-4 space-x-2"
             onClick={handlePagination}
           >
             {!!posts.isLoading && (
