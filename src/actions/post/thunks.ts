@@ -1,8 +1,15 @@
 import { api } from "@/services";
-import { getPostsSuccess, getPostsLoading, addPost } from "./actions";
+import {
+  getPostsSuccess,
+  getPostsLoading,
+  addPost,
+  editPost,
+  deletePost,
+} from "./actions";
 import { RootState } from "@/redux/store";
 import { UseFormReset } from "react-hook-form";
 import { createPostData } from "@/pages/Home/components/CreatePostForm/types";
+import { editPostData } from "@/pages/Home/components/PostCard/components/EditPostFormModal/types";
 
 const LIMIT_PER_PAGE = 10;
 
@@ -47,6 +54,51 @@ export const addPostThunk = (
       dispatch(addPost(response.data) as any);
 
       reset();
+    } catch (error) {
+      console.log(error);
+    }
+
+    setIsLoading(false);
+  };
+};
+
+export const editPostThunk = (
+  data: editPostData,
+  postId: number,
+  setOpen: React.Dispatch<React.SetStateAction<boolean>>,
+  setIsLoading: React.Dispatch<React.SetStateAction<boolean>>
+) => {
+  return async (dispatch: any) => {
+    setIsLoading(true);
+
+    try {
+      const response = await api.patch(`/${postId}/`, data);
+
+      dispatch(editPost(response.data) as any);
+
+      setOpen(false);
+    } catch (error) {
+      console.log(error);
+    }
+
+    setIsLoading(false);
+  };
+};
+
+export const deletePostThunk = (
+  postId: number,
+  setOpen: React.Dispatch<React.SetStateAction<boolean>>,
+  setIsLoading: React.Dispatch<React.SetStateAction<boolean>>
+) => {
+  return async (dispatch: any) => {
+    setIsLoading(true);
+
+    try {
+      await api.delete(`/${postId}/`);
+
+      dispatch(deletePost(postId) as any);
+
+      setOpen(false);
     } catch (error) {
       console.log(error);
     }

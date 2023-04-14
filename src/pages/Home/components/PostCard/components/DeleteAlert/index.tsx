@@ -1,9 +1,8 @@
-import { deletePost } from "@/actions/post/actions";
 import Button from "@/components/Button";
 import Trash from "@/icons/Trash";
-import { useAppDispatch } from "@/redux/hooks";
-import { api } from "@/services";
 import * as AlertDialog from "@radix-ui/react-alert-dialog";
+import { CircleNotch } from "phosphor-react";
+import { useDeleteAlert } from "./useDeleteAlert";
 
 interface DeleteAlertProps {
   postId: number;
@@ -13,19 +12,7 @@ interface DeleteAlertProps {
 const DeleteAlert = (props: DeleteAlertProps) => {
   const { postId, setOpen } = props;
 
-  const dispatch = useAppDispatch();
-
-  const handleDeleteBtnClick = async () => {
-    try {
-      await api.delete(`/${postId}/`);
-
-      dispatch(deletePost(postId) as any);
-
-      setOpen(false);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  const { isLoading, handleDeleteBtnClick } = useDeleteAlert(postId, setOpen);
 
   return (
     <AlertDialog.Root>
@@ -45,19 +32,25 @@ const DeleteAlert = (props: DeleteAlertProps) => {
 
           <div className="flex justify-end gap-[25px]">
             <AlertDialog.Cancel asChild>
-              <Button className="btn-outline-white w-[120px] h-8">
+              <Button
+                className="btn-outline-white w-[120px] h-8"
+                disabled={isLoading}
+              >
                 Cancel
               </Button>
             </AlertDialog.Cancel>
 
-            <AlertDialog.Action asChild>
-              <Button
-                className="btn-danger w-[120px] h-8"
-                onClick={handleDeleteBtnClick}
-              >
-                Delete
-              </Button>
-            </AlertDialog.Action>
+            <Button
+              className="btn-danger w-[120px] h-8"
+              onClick={handleDeleteBtnClick}
+              disabled={isLoading}
+            >
+              {isLoading ? (
+                <CircleNotch className="animate-spin" size={20} />
+              ) : (
+                "Delete"
+              )}
+            </Button>
           </div>
         </AlertDialog.Content>
       </AlertDialog.Portal>
