@@ -5,6 +5,7 @@ import { getPostsThunk } from "@/actions/post/thunks";
 import { resetPosts } from "@/actions/post/actions";
 import PostsList from "./components/PostsList";
 import { useHome } from "./useHome";
+import ScrollToTop from "./components/ScrollToTop";
 
 const Home = () => {
   const { username, dispatch } = useHome();
@@ -34,6 +35,8 @@ const Home = () => {
           <PostsList />
         </div>
       </section>
+
+      <ScrollToTop />
     </>
   );
 };
