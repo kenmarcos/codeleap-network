@@ -1,4 +1,5 @@
 import { Action, ActionType } from "@/actions/post/actionTypes";
+import { compareAsc, parseISO } from "date-fns";
 
 export interface Post {
   id: number;
@@ -66,7 +67,12 @@ const postReducer = (state: PostsState = defaultState, action: Action) => {
       const post = action.payload;
       return {
         ...state,
-        results: [post, ...state.results],
+        results: [post, ...state.results].sort((firstPost, secondPost) => {
+          return compareAsc(
+            parseISO(secondPost.created_datetime),
+            parseISO(firstPost.created_datetime)
+          );
+        }),
       };
 
     case ActionType.DELETE_POST:
@@ -84,7 +90,14 @@ const postReducer = (state: PostsState = defaultState, action: Action) => {
 
       return {
         ...state,
-        results: [action.payload, ...filteredPosts],
+        results: [action.payload, ...filteredPosts].sort(
+          (firstPost, secondPost) => {
+            return compareAsc(
+              parseISO(secondPost.created_datetime),
+              parseISO(firstPost.created_datetime)
+            );
+          }
+        ),
       };
 
     default:
