@@ -2,13 +2,15 @@ import Button from "@/components/Button";
 import PostCard from "../PostCard";
 import { CircleNotch, Plus } from "phosphor-react";
 import { usePostsList } from "./usePostsList";
+import PostCardSkeleton from "../PostCardSkeleton";
 
 const PostsList = () => {
   const { posts, handlePagination } = usePostsList();
 
   return (
     <>
-      {!!posts.isLoading && <h2>Loading...</h2>}
+      {!!posts.isLoading &&
+        [...Array(3)].map((_, index) => <PostCardSkeleton key={index} />)}
 
       {!!posts.results.length && (
         <>
