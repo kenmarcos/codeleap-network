@@ -1,10 +1,12 @@
 import "@/styles/index.css";
 import Router from "@/routes";
+import { Toaster } from "react-hot-toast";
 
 function App() {
   return (
     <>
       <Router />
+      <Toaster />
     </>
   );
 }

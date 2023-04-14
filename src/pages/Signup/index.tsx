@@ -1,5 +1,11 @@
+import SignupFormModal from "./components/SignupFormModal";
+
 const Signup = () => {
-  return <h2>Signup</h2>;
+  return (
+    <>
+      <SignupFormModal />
+    </>
+  );
 };
 
 export default Signup;

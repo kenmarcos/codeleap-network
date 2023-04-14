@@ -14,3 +14,25 @@
     line-height: 21px;
   }
 }
+
+@layer components {
+  .btn {
+    @apply flex justify-center items-center rounded-lg font-bold disabled:opacity-40 disabled:cursor-not-allowed;
+  }
+
+  .btn-primary {
+    @apply bg-primary text-white border-primary duration-300 enabled:hover:brightness-90;
+  }
+
+  .btn-success {
+    @apply bg-success text-white border-success duration-300 hover:brightness-90;
+  }
+
+  .btn-danger {
+    @apply bg-danger text-white border-danger duration-300 hover:brightness-90;
+  }
+
+  .btn-outline-white {
+    @apply bg-white text-black border border-custom-gray-500 hover:bg-black hover:text-white;
+  }
+}
