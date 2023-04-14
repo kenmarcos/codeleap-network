@@ -10,6 +10,7 @@ import { RootState } from "@/redux/store";
 import { UseFormReset } from "react-hook-form";
 import { createPostData } from "@/pages/Home/components/CreatePostForm/types";
 import { editPostData } from "@/pages/Home/components/PostCard/components/EditPostFormModal/types";
+import { toast } from "react-hot-toast";
 
 const LIMIT_PER_PAGE = 10;
 
@@ -51,11 +52,13 @@ export const addPostThunk = (
     try {
       const response = await api.post("/", data);
 
+      toast.success("Your post has been successfully created!");
+
       dispatch(addPost(response.data) as any);
 
       reset();
     } catch (error) {
-      console.log(error);
+      toast.error("Oops, something went wrong. Please try again later.");
     }
 
     setIsLoading(false);
@@ -74,11 +77,13 @@ export const editPostThunk = (
     try {
       const response = await api.patch(`/${postId}/`, data);
 
+      toast.success("Your changes have been successfully saved!");
+
       dispatch(editPost(response.data) as any);
 
       setOpen(false);
     } catch (error) {
-      console.log(error);
+      toast.error("Oops, something went wrong. Please try again later.");
     }
 
     setIsLoading(false);
@@ -96,11 +101,13 @@ export const deletePostThunk = (
     try {
       await api.delete(`/${postId}/`);
 
+      toast.success("Post is successfully deleted!");
+
       dispatch(deletePost(postId) as any);
 
       setOpen(false);
     } catch (error) {
-      console.log(error);
+      toast.error("Oops, something went wrong. Please try again later.");
     }
 
     setIsLoading(false);
