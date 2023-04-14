@@ -7,6 +7,7 @@ import PostsList from "./components/PostsList";
 import { useHome } from "./useHome";
 import ScrollToTop from "./components/ScrollToTop";
 import { UserCircle } from "phosphor-react";
+import { motion } from "framer-motion";
 
 const Home = () => {
   const { username, dispatch } = useHome();
@@ -24,7 +25,12 @@ const Home = () => {
   }, []);
 
   return (
-    <>
+    <motion.div
+      initial={{ x: "-100%" }}
+      animate={{ x: "0%" }}
+      transition={{ duration: 0.5 }}
+      exit={{ x: "100%" }}
+    >
       <section className="min-h-screen max-w-[800px] mx-auto bg-white">
         <header className="bg-primary py-[27px] px-[37px] flex justify-between gap-2">
           <h2 className="text-white">CodeLeap Network</h2>
@@ -46,7 +52,7 @@ const Home = () => {
       </section>
 
       <ScrollToTop />
-    </>
+    </motion.div>
   );
 };
 
