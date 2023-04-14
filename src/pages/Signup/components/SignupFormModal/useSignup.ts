@@ -12,11 +12,14 @@ export const useSignup = () => {
 
   const signupForm = useForm<signupData>({
     resolver: yupResolver(signupSchema),
+    defaultValues: {
+      username: "",
+    },
   });
 
   const {
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isDirty },
   } = signupForm;
 
   const handleFormSubmit = (data: signupData) => {
@@ -30,5 +33,6 @@ export const useSignup = () => {
     handleSubmit,
     handleFormSubmit,
     errors,
+    isDirty,
   };
 };
