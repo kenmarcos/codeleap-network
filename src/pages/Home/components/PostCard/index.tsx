@@ -5,7 +5,7 @@ import { Post } from "@/redux/post/reducer";
 import { parseISO, formatDistanceToNow } from "date-fns";
 import * as AlertDialog from "@radix-ui/react-alert-dialog";
 import * as Dialog from "@radix-ui/react-dialog";
-import { useTypedSelector } from "@/redux/hooks";
+import { useAppDispatch, useTypedSelector } from "@/redux/hooks";
 import { User } from "@/redux/user/reducer";
 import { Form } from "@/components/Form";
 import * as yup from "yup";
@@ -13,6 +13,7 @@ import { FormProvider, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { api } from "@/services";
 import { useState } from "react";
+import { deletePost, editPost } from "@/actions/post/actions";
 
 export const editPostSchema = yup.object().shape({
   title: yup.string().required("*Required field"),
@@ -28,6 +29,7 @@ interface PostCardProps {
 const PostCard = (props: PostCardProps) => {
   const { id, title, username, created_datetime, content } = props.post;
 
+  const dispatch = useAppDispatch();
   const user: User = useTypedSelector((store) => store.user);
   const [open, setOpen] = useState(false);
 
@@ -38,6 +40,8 @@ const PostCard = (props: PostCardProps) => {
   const handleDeleteBtnClick = async () => {
     try {
       await api.delete(`/${id}/`);
+
+      dispatch(deletePost(id) as any);
 
       setOpen(false);
     } catch (error) {
@@ -60,7 +64,9 @@ const PostCard = (props: PostCardProps) => {
 
   const handleFormSubmit = async (data: editPostData) => {
     try {
-      await api.patch(`/${id}/`, data);
+      const response = await api.patch(`/${id}/`, data);
+
+      dispatch(editPost(response.data) as any);
 
       setOpen(false);
     } catch (error) {
