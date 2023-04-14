@@ -5,6 +5,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { signupSchema } from "./schema";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-hot-toast";
 
 export const useSignup = () => {
   const navigate = useNavigate();
@@ -24,6 +25,8 @@ export const useSignup = () => {
 
   const handleFormSubmit = (data: signupData) => {
     dispatch(signupUser(data));
+
+    toast.success(`Welcome ${data.username}!!!`);
 
     navigate("/home");
   };
