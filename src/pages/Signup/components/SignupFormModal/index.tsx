@@ -5,7 +5,8 @@ import { FormProvider } from "react-hook-form";
 import { useSignup } from "./useSignup";
 
 const SignupFormModal = () => {
-  const { signupForm, handleSubmit, handleFormSubmit, errors } = useSignup();
+  const { signupForm, handleSubmit, handleFormSubmit, errors, isDirty } =
+    useSignup();
 
   return (
     <Dialog.Root defaultOpen>
@@ -34,6 +35,7 @@ const SignupFormModal = () => {
                 <Button
                   type="submit"
                   className="btn-primary w-[120px] h-8 uppercase"
+                  disabled={!isDirty}
                 >
                   Enter
                 </Button>
