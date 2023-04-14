@@ -3,6 +3,7 @@ import { Form } from "@/components/Form";
 import { FormProvider } from "react-hook-form";
 import { useCreatePost } from "./useCreatePost";
 import { createPostSchema } from "./schema";
+import { CircleNotch } from "phosphor-react";
 
 const CreatePostForm = () => {
   const {
@@ -11,6 +12,7 @@ const CreatePostForm = () => {
     handleFormSubmit,
     errors,
     dirtyFields,
+    isLoading,
   } = useCreatePost();
 
   const fieldsLenght = Object.keys(createPostSchema.fields).filter(
@@ -43,9 +45,15 @@ const CreatePostForm = () => {
             <Button
               type="submit"
               className="btn-primary w-[120px] h-8"
-              disabled={Object.keys(dirtyFields).length !== fieldsLenght}
+              disabled={
+                Object.keys(dirtyFields).length !== fieldsLenght || isLoading
+              }
             >
-              Create
+              {isLoading ? (
+                <CircleNotch className="animate-spin" size={20} />
+              ) : (
+                "Create"
+              )}
             </Button>
           </div>
         </form>

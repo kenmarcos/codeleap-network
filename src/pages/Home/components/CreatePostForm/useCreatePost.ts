@@ -5,10 +5,13 @@ import { createPostSchema } from "./schema";
 import { useAppDispatch, useTypedSelector } from "@/redux/hooks";
 import { api } from "@/services";
 import { addPost } from "@/actions/post/actions";
+import { useState } from "react";
+import { addPostThunk } from "@/actions/post/thunks";
 
 export const useCreatePost = () => {
   const dispatch = useAppDispatch();
   const { username } = useTypedSelector((store) => store.user);
+  const [isLoading, setIsLoading] = useState(false);
 
   const createPostForm = useForm<createPostData>({
     resolver: yupResolver(createPostSchema),
@@ -26,15 +29,7 @@ export const useCreatePost = () => {
   } = createPostForm;
 
   const handleFormSubmit = async (data: createPostData) => {
-    try {
-      const response = await api.post("/", data);
-
-      dispatch(addPost(response.data) as any);
-
-      reset();
-    } catch (error) {
-      console.log(error);
-    }
+    dispatch(addPostThunk(data, reset, setIsLoading) as any);
   };
 
   return {
@@ -43,5 +38,6 @@ export const useCreatePost = () => {
     handleFormSubmit,
     errors,
     dirtyFields,
+    isLoading,
   };
 };
