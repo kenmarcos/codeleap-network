@@ -17,7 +17,7 @@
 
 @layer components {
   .btn {
-    @apply rounded-lg font-bold disabled:opacity-40 disabled:cursor-not-allowed;
+    @apply flex justify-center items-center rounded-lg font-bold disabled:opacity-40 disabled:cursor-not-allowed;
   }
 
   .btn-primary {
@@ -33,6 +33,6 @@
   }
 
   .btn-outline-white {
-    @apply bg-white text-black border-custom-gray-500 hover:bg-black hover:text-white;
+    @apply bg-white text-black border border-custom-gray-500 hover:bg-black hover:text-white;
   }
 }

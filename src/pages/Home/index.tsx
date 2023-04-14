@@ -1,14 +1,25 @@
 import { Navigate } from "react-router-dom";
 import CreatePostForm from "./components/CreatePostForm";
-import PostCard from "./components/PostCard";
-import { useTypedSelector } from "@/hooks/useTypeSelector";
+import { useEffect } from "react";
+import { getPostsThunk } from "@/actions/post/thunks";
+import { resetPosts } from "@/actions/post/actions";
+import PostsList from "./components/PostsList";
+import { useHome } from "./useHome";
 
 const Home = () => {
-  const { username } = useTypedSelector((store) => store.user);
+  const { username, dispatch } = useHome();
 
   if (!username) {
     return <Navigate to="/" />;
   }
+
+  useEffect(() => {
+    dispatch(getPostsThunk() as any);
+
+    return () => {
+      dispatch(resetPosts() as any);
+    };
+  }, []);
 
   return (
     <>
@@ -17,10 +28,10 @@ const Home = () => {
           <h2 className="text-white">CodeLeap Network</h2>
         </header>
 
-        <div className="p-6 space-y-6">
+        <div className="p-6 pb-[27px] space-y-6">
           <CreatePostForm />
 
-          <PostCard />
+          <PostsList />
         </div>
       </section>
     </>
