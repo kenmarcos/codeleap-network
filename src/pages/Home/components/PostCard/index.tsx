@@ -17,6 +17,7 @@ const PostCard = (props: PostCardProps) => {
     <div className="border border-custom-gray-500 rounded-2xl overflow-hidden">
       <header className="bg-primary py-[27px] px-[37px] flex justify-between">
         <h2 className="text-white">{title}</h2>
+
         {user.username === username && (
           <div className="flex space-x-5">
             <DeleteAlert postId={id} setOpen={setOpen} />
