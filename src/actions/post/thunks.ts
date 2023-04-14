@@ -1,6 +1,8 @@
 import { api } from "@/services";
-import { getPostsSuccess, getPostsLoading } from "./actions";
+import { getPostsSuccess, getPostsLoading, addPost } from "./actions";
 import { RootState } from "@/redux/store";
+import { UseFormReset } from "react-hook-form";
+import { createPostData } from "@/pages/Home/components/CreatePostForm/types";
 
 const LIMIT_PER_PAGE = 10;
 
@@ -24,5 +26,31 @@ export const getPostsThunk = () => {
     } catch (error) {
       console.log(error);
     }
+  };
+};
+
+export const addPostThunk = (
+  data: createPostData,
+  reset: UseFormReset<{
+    username?: string | undefined;
+    title: string;
+    content: string;
+  }>,
+  setIsLoading: React.Dispatch<React.SetStateAction<boolean>>
+) => {
+  return async (dispatch: any) => {
+    setIsLoading(true);
+
+    try {
+      const response = await api.post("/", data);
+
+      dispatch(addPost(response.data) as any);
+
+      reset();
+    } catch (error) {
+      console.log(error);
+    }
+
+    setIsLoading(false);
   };
 };
