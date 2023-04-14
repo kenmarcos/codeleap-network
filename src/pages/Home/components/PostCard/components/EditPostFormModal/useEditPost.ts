@@ -5,6 +5,8 @@ import { editPostSchema } from "./schema";
 import { editPostData } from "./types";
 import { api } from "@/services";
 import { editPost } from "@/actions/post/actions";
+import { useState } from "react";
+import { editPostThunk } from "@/actions/post/thunks";
 
 interface UseEditPostProps {
   title: string;
@@ -15,6 +17,7 @@ interface UseEditPostProps {
 
 export const useEditPost = (props: UseEditPostProps) => {
   const { title, content, postId, setOpen } = props;
+  const [isLoading, setIsLoading] = useState(false);
 
   const dispatch = useAppDispatch();
 
@@ -32,16 +35,15 @@ export const useEditPost = (props: UseEditPostProps) => {
   } = editPostForm;
 
   const handleFormSubmit = async (data: editPostData) => {
-    try {
-      const response = await api.patch(`/${postId}/`, data);
-
-      dispatch(editPost(response.data) as any);
-
-      setOpen(false);
-    } catch (error) {
-      console.log(error);
-    }
+    dispatch(editPostThunk(data, postId, setOpen, setIsLoading) as any);
   };
 
-  return { editPostForm, handleSubmit, handleFormSubmit, errors, isDirty };
+  return {
+    editPostForm,
+    handleSubmit,
+    handleFormSubmit,
+    errors,
+    isDirty,
+    isLoading,
+  };
 };

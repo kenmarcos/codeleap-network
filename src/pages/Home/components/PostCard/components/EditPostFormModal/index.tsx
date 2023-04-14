@@ -5,6 +5,7 @@ import * as Dialog from "@radix-ui/react-dialog";
 import { FormProvider, useForm } from "react-hook-form";
 
 import { useEditPost } from "./useEditPost";
+import { CircleNotch } from "phosphor-react";
 
 interface EditPostFormModalProps {
   title: string;
@@ -17,8 +18,14 @@ interface EditPostFormModalProps {
 const EditPostFormModal = (props: EditPostFormModalProps) => {
   const { title, content, postId, open, setOpen } = props;
 
-  const { editPostForm, handleSubmit, handleFormSubmit, errors, isDirty } =
-    useEditPost({ title, content, postId, setOpen });
+  const {
+    editPostForm,
+    handleSubmit,
+    handleFormSubmit,
+    errors,
+    isDirty,
+    isLoading,
+  } = useEditPost({ title, content, postId, setOpen });
 
   return (
     <Dialog.Root open={open} onOpenChange={setOpen}>
@@ -57,7 +64,10 @@ const EditPostFormModal = (props: EditPostFormModalProps) => {
 
               <div className="flex justify-end gap-[25px]">
                 <Dialog.Close asChild>
-                  <Button className="btn-outline-white w-[120px] h-8">
+                  <Button
+                    className="btn-outline-white w-[120px] h-8"
+                    disabled={isLoading}
+                  >
                     Cancel
                   </Button>
                 </Dialog.Close>
@@ -65,9 +75,13 @@ const EditPostFormModal = (props: EditPostFormModalProps) => {
                 <Button
                   type="submit"
                   className="btn-success w-[120px] h-8"
-                  disabled={!isDirty}
+                  disabled={!isDirty || isLoading}
                 >
-                  Save
+                  {isLoading ? (
+                    <CircleNotch className="animate-spin" size={20} />
+                  ) : (
+                    "Save"
+                  )}
                 </Button>
               </div>
             </form>
