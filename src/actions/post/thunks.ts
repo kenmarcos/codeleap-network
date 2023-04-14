@@ -2,7 +2,7 @@ import { api } from "@/services";
 import { getPostsSuccess, getPostsLoading } from "./actions";
 import { RootState } from "@/redux/store";
 
-const LIMIT_PER_PAGE = 2;
+const LIMIT_PER_PAGE = 10;
 
 export const getPostsThunk = () => {
   return async (dispatch: any, getState: () => RootState) => {
